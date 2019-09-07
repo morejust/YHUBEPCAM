@@ -1,0 +1,49 @@
+.screen.pay-screen {
+  min-height: 100vh;
+  position: relative;
+
+  background: teal;
+  background: rgba(54, 60, 68, 1);
+  color: white;
+
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.overlay {
+  z-index: 999;
+  position: absolute;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 100vh;
+
+  /* background: #363C44; */
+  background: rgba(54, 60, 68, 0.9);
+
+  font-size: 48px;
+}
+
+.overlay scan {
+  /* display: block; */
+  padding: 25px;
+}
+
+.overlay.overlay-success {
+  background: rgba(57, 200, 22, 0.5);
+  /* background: #39C816; */
+}
+
+.overlay.overlay-error {
+  background: rgba(198, 0, 0, 0.5);
+  /* background: #C60000; */
+}
+
+.overlay.overlay-hide {
+  background: rgba(0, 0, 0, 0);
+}
