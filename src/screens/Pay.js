@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import QRReader from 'react-qr-reader'
-import { broadcast, verify } from '@waves/waves-transactions'
-
+import * as waves from '@waves/waves-transactions'
 import './Pay.css'
 
+const { broadcast, verify } = waves
+
+window.waves = waves
 const nodeUrl = 'https://testnodes.wavesnodes.com'
 
 export default () => {
@@ -12,9 +14,12 @@ export default () => {
     console.log('tx', tx)
 
     try {
-      console.log('verify', verify(tx))
+      const parsed = JSON.parse(tx)
+      console.log('parsed', parsed)
 
-      const resp = await broadcast(tx, nodeUrl)
+      console.log('verify', verify(parsed))
+
+      const resp = await broadcast(parsed, nodeUrl)
 
       handleSendSuccess(resp)
     } catch (err) {
@@ -35,7 +40,7 @@ export default () => {
   const handleError = (error) => {
     console.error(error)
 
-    showOverlayError()
+    showOverlayError(error.message)
   }
 
   const handleScan = qr => {
@@ -52,14 +57,16 @@ export default () => {
   }
 
   const [ overlayType, setOverlay ] = useState('none')
+  const [ errorMessage, setErrorMessage ] = useState(null)
   const [ tx, setTx ] = useState('')
 
   const showOverlaySuccess = () => {
     setOverlay('success')
   }
 
-  const showOverlayError = () => {
+  const showOverlayError = (message = '') => {
     setOverlay('error')
+    setErrorMessage(message)
   }
 
   const hideOverlay = () => {
@@ -71,9 +78,10 @@ export default () => {
     <div className="screen pay-screen">
       <QRReader
         delay={300}
+        resolution={1000}
         onError={handleError}
         onScan={handleScan}
-        style={{ height: '100%' /*, borderRadius: '50px', overflow: 'hidden' */ }}
+        style={{ height: '100%' }}
       />
 
       <span style={{ display: 'inline-block', padding: '40px' }}>(c) YHUBEPCAM</span>
@@ -84,7 +92,7 @@ export default () => {
         )}
 
         {overlayType === 'error' && (
-          <span>Error.</span>
+          <span>Error: {errorMessage}</span>
         )}
 
         {overlayType === 'none' && (
