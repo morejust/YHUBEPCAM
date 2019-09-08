@@ -29,7 +29,7 @@ export default () => {
   return (
     <header className="App-header">
       <h1>Kassa address: <AddressLink address={kassaAddress} /></h1>
-      <table>
+      <table border="1">
         <thead>
           <tr>
             <th>TX ID</th>
