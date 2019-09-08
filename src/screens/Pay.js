@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import QRReader from 'react-qr-reader'
 import './Pay.css'
 
-import { sendTx, waitForTx } from '../services/kassa'
+import TxLink from '../components/TxLink'
+import { sendTx, waitTx } from '../services/kassa'
 
 export default () => {
 
@@ -22,7 +23,7 @@ export default () => {
         console.log('resp', resp)
         handleSendSuccess(resp)
         const { id } = resp
-        return waitForTx(id)
+        return waitTx(id)
       })
       .then(resp => handlePaySuccess(resp))
       .catch(err => handleError(err))
@@ -55,6 +56,7 @@ export default () => {
   const [ overlayType, setOverlay ] = useState('none')
   const [ errorMessage, setErrorMessage ] = useState(null)
   const [ tx, setTx ] = useState('')
+  const [ txId, setTxId ] = useState(null)
 
   const showOverlaySent = () => {
     setOverlay('sent')
@@ -88,7 +90,7 @@ export default () => {
 
       <div className={`overlay overlay-${overlayType}`} onClick={hideOverlay}>
         {overlayType === 'sent' && (
-          <span>Sent!</span>
+          <span>Sent! <TxLink txId={txId} /></span>
         )}
 
         {overlayType === 'paid' && (

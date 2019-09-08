@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import { fetchTxList, decodeProducts } from '../services/kassa.js'
-
-const shortHash = hash => {
-  if (!hash) return ''
-  return `${hash.slice(0, 3)}...${hash.slice(-3)}`
-}
+import { fetchTxList, decodeProducts, kassaAddress } from '../services/kassa.js'
+import { shortHash } from '../utils'
+import TxLink from '../components/TxLink'
+import AddressLink from '../components/AddressLink'
 
 export default () => {
   const [ list, setList ] = useState([{}])
@@ -21,6 +19,7 @@ export default () => {
 
   return (
     <header className="App-header">
+      <h1>Kassa address: <AddressLink address={kassaAddress} /></h1>
       <table>
         <thead>
           <tr>
@@ -35,11 +34,11 @@ export default () => {
           {list.map((tx, index) => (
             <tr key={index}>
               <td>
-                <a href={`https://wavesexplorer.com/testnet/tx/${tx.id}`}>
-                  {shortHash(tx.id)}
-                </a>
+                <TxLink txId={tx.id} />
               </td>
-              <td>{shortHash(tx.sender)}</td>
+              <td>
+                <AddressLink address={tx.sender} />
+              </td>
               <td>{new Date(tx.timestamp).toLocaleString()}</td>
               <td>{(tx.amount / 1e5).toFixed(2) || '0'} RUB</td>
               <td>{(tx.products || []).map(p => p.n).join(",\n") || '-'}</td>

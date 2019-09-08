@@ -53,4 +53,4 @@ export const decodeProducts = tx => {
   return products.map(id => decodeProduct(id)).filter(p => !!p)
 }
 
-export { waitForTx }
+export const waitTx = async txId => waitForTx(txId, nodeUrl)
