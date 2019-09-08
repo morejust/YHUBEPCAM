@@ -1,31 +1,25 @@
 import React, { useState } from 'react'
 import QRReader from 'react-qr-reader'
-import * as waves from '@waves/waves-transactions'
 import './Pay.css'
 
-const { broadcast, verify } = waves
-
-window.waves = waves
-const nodeUrl = 'https://testnodes.wavesnodes.com'
+import { sendTx } from '../services/kassa'
 
 export default () => {
 
-  const sendTx = async tx => {
-    console.log('tx', tx)
+  const handleScan = qr => {
+    if (!qr) { return }
 
-    try {
-      const parsed = JSON.parse(tx)
-      console.log('parsed', parsed)
+    console.log('scanned', qr)
 
-      console.log('verify', verify(parsed))
+    const _tx = qr
 
-      const resp = await broadcast(parsed, nodeUrl)
+    if (tx === _tx) { return }
 
-      handleSendSuccess(resp)
-    } catch (err) {
-      handleError(err)
-    }
-
+    setTx(_tx)
+    
+    sendTx(_tx)
+      .then(resp => handleSendSuccess(resp))
+      .catch(err => handleError(err))
   }
 
   const handleSendSuccess = resp => {
@@ -43,25 +37,18 @@ export default () => {
     showOverlayError(error.message)
   }
 
-  const handleScan = qr => {
-    if (!qr) { return }
-
-    console.log('scanned', qr)
-
-    const _tx = qr
-
-    if (tx === _tx) { return }
-
-    setTx(_tx)
-    sendTx(_tx)
-  }
-
   const [ overlayType, setOverlay ] = useState('none')
   const [ errorMessage, setErrorMessage ] = useState(null)
   const [ tx, setTx ] = useState('')
+  const [ list, setList ] = useState([])
 
   const showOverlaySuccess = () => {
     setOverlay('success')
+  }
+
+  const showOverlayPaymentList = (list = []) => {
+    setOverlay('list')
+    setList(list)
   }
 
   const showOverlayError = (message = '') => {
@@ -97,6 +84,13 @@ export default () => {
 
         {overlayType === 'none' && (
           <span>Please, scan signed tx.</span>
+        )}
+
+        {overlayType === 'list' && (
+          <div>
+            <span>- Moloko</span>
+            <span>- Bread</span>
+          </div>
         )}
       </div>
     </div>
