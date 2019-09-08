@@ -9,6 +9,11 @@ import { sendFaucet, waitTx } from '../services/kassa'
 // THIS IS SECURE
 const UNSAFE_SEED = 'liquid trade skirt elbow employ bomb cradle genius liberty mean tape profit'
 
+const STATUS = {
+  sent: 'Отправляется...',
+  paid: 'Успешно!',
+}
+
 export default (props) => {
   const [ address, setAddress ] = useState(null)
   const [ error, setError ] = useState(null)
@@ -29,10 +34,10 @@ export default (props) => {
     sendFaucet(_address, UNSAFE_SEED)
       .then(res => {
         setTxId(res.id)
-        setTxStatus('tx sent')
+        setTxStatus('sent')
         return waitTx(res.id)
       })
-      .then(tx => setTxStatus('success'))
+      .then(tx => setTxStatus('paid'))
       .catch(err => handleError(err))
   }
 
@@ -44,19 +49,26 @@ export default (props) => {
       <h1>Получи бесплатные рубли на покупки через блокчейн!</h1>
 
       {error && (
-        <div style={{ color: 'red' }}>{error}</div>
-      )}
-      {address && (
-        <AddressLink address={address} />
-      )}
-
-      {txId && (
-        <TxLink txId={txId} />
+        <div style={{ color: 'red' }}>Error: {error}</div>
       )}
 
       {txStatus && (
-        <h3>{txStatus}</h3>
+        <h1>{STATUS[txStatus]}</h1>
       )}
+
+      {(txStatus === 'paid') && (
+        <h1><a href="/pay">Now PAY</a></h1>
+      )}
+
+      {address && (<span>
+        Address: <AddressLink address={address} />
+      </span>)}
+
+      <br />
+
+      {txId && (<span>
+        TX ID: <TxLink txId={txId} />
+      </span>)}
 
       <QRReader
         delay={300}
