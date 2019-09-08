@@ -1,6 +1,5 @@
 {
   "name": "yhubepcam-kassa",
-  "homepage" : "https://morejust.github.io/YHUBEPCAM-KASSA",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +16,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "now"
   },
   "eslintConfig": {
     "extends": "react-app"
