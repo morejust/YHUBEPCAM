@@ -38,7 +38,7 @@ export default (props) => {
             Image
           </td>
           <td>
-            <img src={product.p} style={{ maxWidth: '300px', maxHeight: '300px' }}/>
+            <img src={product.p} style={{ maxWidth: '300px', maxHeight: '300px' }} alt="" />
           </td>
         </tr>
         <tr>
