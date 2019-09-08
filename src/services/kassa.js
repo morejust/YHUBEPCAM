@@ -41,7 +41,9 @@ export const decodeProduct = productId => {
 }
 
 export const decodeProducts = tx => {
-  const productList = libs.crypto.base58Decode(tx.attachment).toString()
+  const productBytes = libs.crypto.base58Decode(tx.attachment)
+  const enc = new TextDecoder("utf-8")
+  const productList = enc.decode(productBytes)
 
   // const productList = "333,123"
 
