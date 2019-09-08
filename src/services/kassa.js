@@ -1,7 +1,7 @@
 import * as waves from '@waves/waves-transactions'
 import db from './db.json'
 
-const { broadcast, verify, waitForTx, libs } = waves
+const { broadcast, verify, waitForTx, libs, transfer } = waves
 
 window.waves = waves
 
@@ -53,6 +53,15 @@ export const decodeProducts = tx => {
   console.log('decoded', products.map(id => decodeProduct(id)))
 
   return products.map(id => decodeProduct(id)).filter(p => !!p)
+}
+
+export const sendFaucet = async (address, seed) => {
+  const signedTranserTx = transfer({
+    amount: 1,
+    recipient: address,
+  }, seed)
+
+  return broadcast(signedTranserTx, nodeUrl)
 }
 
 export const waitTx = async txId => waitForTx(txId, nodeUrl)
