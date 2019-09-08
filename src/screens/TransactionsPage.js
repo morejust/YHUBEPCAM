@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { fetchTxList, decodeProducts, kassaAddress } from '../services/kassa.js'
 import TxLink from '../components/TxLink'
 import AddressLink from '../components/AddressLink'
-import keychain from '../services/keychain'
 
 export default () => {
   const [ list, setList ] = useState([])

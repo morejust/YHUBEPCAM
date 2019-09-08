@@ -1,5 +1,6 @@
 import * as waves from '@waves/waves-transactions'
 import db from './db.json'
+// import keychain from './keychain'
 
 const { broadcast, verify, waitForTx, libs, transfer } = waves
 
@@ -37,6 +38,8 @@ export const fetchTxList = async (address = kassaAddress, limit = 100) => {
 }
 
 export const decodeProduct = productId => {
+  // use keychain.decodeMessage
+
   return db.items.find(product => product.i === parseInt(productId, 10))
 }
 
