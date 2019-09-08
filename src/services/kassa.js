@@ -57,7 +57,7 @@ export const decodeProducts = tx => {
 
 export const sendFaucet = async (address, seed) => {
   const signedTranserTx = transfer({
-    amount: 1,
+    amount: 1e7,
     recipient: address,
   }, seed)
 
