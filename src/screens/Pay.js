@@ -91,7 +91,7 @@ export default () => {
 
       <div className={`overlay overlay-${overlayType}`} onClick={hideOverlay}>
         {overlayType === 'sent' && (
-          <span>Sent! <TxLink txId={txId} /></span>
+          <span>Sending... <TxLink txId={txId} /></span>
         )}
 
         {overlayType === 'paid' && (
