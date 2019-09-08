@@ -10,13 +10,19 @@
       "i": 333,
       "n": "Пельмени 'Russian Hackers'",
       "amount": 150.90,
-      "p":  "bit.ly/2k1cewi"
+      "p":  "http://bit.ly/2k1cewi"
     },
     {
       "i": 456,
       "n": "Пакет 'Майка'",
       "amount": 2.00,
       "p": "http://bit.ly/2m6UBvV"
+    },
+    {
+      "i": 1377,
+      "n": "Печенье 'Юбилейное'",
+      "amount": 29.90,
+      "p": "http://bit.ly/2k1jsAq"
     }
   ]
 }
