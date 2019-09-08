@@ -64,4 +64,4 @@ export const sendFaucet = async (address, seed) => {
   return broadcast(signedTranserTx, nodeUrl)
 }
 
-export const waitTx = async txId => waitForTx(txId, nodeUrl)
+export const waitTx = async txId => waitForTx(txId, { apiBase: nodeUrl })

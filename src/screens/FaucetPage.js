@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import QRReader from 'react-qr-reader'
 // import './Pay.css'
 
-import { sendFaucet } from '../services/kassa'
+import AddressLink from '../components/AddressLink'
+import TxLink from '../components/TxLink'
+import { sendFaucet, waitTx } from '../services/kassa'
 
 // THIS IS SECURE
 const UNSAFE_SEED = 'liquid trade skirt elbow employ bomb cradle genius liberty mean tape profit'
 
 export default (props) => {
   const [ address, setAddress ] = useState(null)
+  const [ error, setError ] = useState(null)
+  const [ txId, setTxId ] = useState(null)
+  const [ txStatus, setTxStatus ] = useState(null)
 
   const handleScan = qr => {
     if (!qr) { return }
@@ -22,19 +27,35 @@ export default (props) => {
     setAddress(_address)
 
     sendFaucet(_address, UNSAFE_SEED)
-      .then(res => alert(res))
+      .then(res => {
+        setTxId(res.id)
+        setTxStatus('tx sent')
+        return waitTx(res.id)
+      })
+      .then(tx => setTxStatus('success'))
       .catch(err => handleError(err))
   }
 
-  const handleError = err => alert(err.message)
+  const handleError = err => setError(err.message)
 
   return (
     <div className="screen faucet-screen">
       <div style={{ paddingTop: '2rem' }}>&nbsp;</div>
       <h1>Получи бесплатные рубли на покупки через блокчейна!</h1>
 
+      {error && (
+        <div style={{ color: 'red' }}>{error}</div>
+      )}
       {address && (
-        <span>{address}</span>
+        <AddressLink address={address} />
+      )}
+
+      {txId && (
+        <TxLink txId={txId} />
+      )}
+
+      {txStatus && (
+        <h3>{txStatus}</h3>
       )}
 
       <QRReader
