@@ -23,6 +23,7 @@ export default () => {
         console.log('resp', resp)
         handleSendSuccess(resp)
         const { id } = resp
+        setTxId(id)
         return waitTx(id)
       })
       .then(resp => handlePaySuccess(resp))

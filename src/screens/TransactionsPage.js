@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 import { fetchTxList, decodeProducts, kassaAddress } from '../services/kassa.js'
-import { shortHash } from '../utils'
 import TxLink from '../components/TxLink'
 import AddressLink from '../components/AddressLink'
 
