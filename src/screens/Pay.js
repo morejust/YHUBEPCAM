@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import QRReader from 'react-qr-reader'
 import './Pay.css'
 
-import { sendTx } from '../services/kassa'
+import { sendTx, waitForTx } from '../services/kassa'
 
 export default () => {
 
@@ -16,9 +16,15 @@ export default () => {
     if (tx === _tx) { return }
 
     setTx(_tx)
-    
+
     sendTx(_tx)
-      .then(resp => handleSendSuccess(resp))
+      .then(resp => {
+        console.log('resp', resp)
+        handleSendSuccess(resp)
+        const { id } = resp
+        return waitForTx(id)
+      })
+      .then(resp => handlePaySuccess(resp))
       .catch(err => handleError(err))
   }
 
@@ -28,7 +34,16 @@ export default () => {
     const hash = resp
     console.log('Sent tx! hash=', hash)
 
-    showOverlaySuccess()
+    showOverlaySent()
+  }
+
+  const handlePaySuccess = resp => {
+    console.log('resp', resp)
+
+    const hash = resp
+    console.log('Sent tx! hash=', hash)
+
+    showOverlayPaid()
   }
 
   const handleError = (error) => {
@@ -40,15 +55,13 @@ export default () => {
   const [ overlayType, setOverlay ] = useState('none')
   const [ errorMessage, setErrorMessage ] = useState(null)
   const [ tx, setTx ] = useState('')
-  const [ list, setList ] = useState([])
 
-  const showOverlaySuccess = () => {
-    setOverlay('success')
+  const showOverlaySent = () => {
+    setOverlay('sent')
   }
 
-  const showOverlayPaymentList = (list = []) => {
-    setOverlay('list')
-    setList(list)
+  const showOverlayPaid = () => {
+    setOverlay('paid')
   }
 
   const showOverlayError = (message = '') => {
@@ -74,8 +87,12 @@ export default () => {
       <span style={{ display: 'inline-block', padding: '40px' }}>(c) YHUBEPCAM</span>
 
       <div className={`overlay overlay-${overlayType}`} onClick={hideOverlay}>
-        {overlayType === 'success' && (
-          <span>Success!</span>
+        {overlayType === 'sent' && (
+          <span>Sent!</span>
+        )}
+
+        {overlayType === 'paid' && (
+          <span>Paid!</span>
         )}
 
         {overlayType === 'error' && (
