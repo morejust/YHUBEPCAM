@@ -68,7 +68,7 @@ export default () => {
         resolution={1000}
         onError={handleError}
         onScan={handleScan}
-        style={{ height: '100%' }}
+        style={{ padding: '50px', maxWidth: '500px', margin: '0 auto' }}
       />
 
       <span style={{ display: 'inline-block', padding: '40px' }}>(c) YHUBEPCAM</span>
