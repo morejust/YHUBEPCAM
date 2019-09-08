@@ -41,7 +41,7 @@ export default (props) => {
   return (
     <div className="screen faucet-screen">
       <div style={{ paddingTop: '2rem' }}>&nbsp;</div>
-      <h1>Получи бесплатные рубли на покупки через блокчейна!</h1>
+      <h1>Получи бесплатные рубли на покупки через блокчейн!</h1>
 
       {error && (
         <div style={{ color: 'red' }}>{error}</div>
