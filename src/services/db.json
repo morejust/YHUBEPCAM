@@ -1,11 +1,22 @@
 {
   "items": [
-    { "id": "ccc" },
     {
       "i": 123,
       "n": "Молоко 'Простоквашино' 3.2%, 1л",
       "amount": 78.90,
       "p": "http://bit.ly/2k37PZO"
+    },
+    {
+      "i": 333,
+      "n": "Пельмени 'Russian Hackers'",
+      "amount": 150.90,
+      "p":  "bit.ly/2k1cewi"
+    },
+    {
+      "i": 456,
+      "n": "Пакет 'Майка'",
+      "amount": 2.00,
+      "p": "http://bit.ly/2m6UBvV"
     }
   ]
 }
