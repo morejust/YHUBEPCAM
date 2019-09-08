@@ -10,7 +10,8 @@ export default () => {
         <img src={logo} className="App-logo" alt="logo" />
       </Link>
       <p>
-        Scan QR code.
+        <h1>YHUBEPCAM</h1>
+        Tap to scan QR code.
       </p>
     </header>
   )
